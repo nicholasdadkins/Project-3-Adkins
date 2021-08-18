@@ -5,7 +5,23 @@ import React, {useState, useEffect} from 'react';
 // 3. Show All, Active and completed
 
 function Todo(props) {
-    return (
+
+       // const [toDoList, setToDoList] = useState(['']);
+        const [toDoList, setToDoList] = useState(['Item one', 'Item two']);
+        const [itemText, setItemText] = useState('');
+        const updateInputValue = async (event) => {
+            console.log(event.currentTarget.value)
+            setItemText(event.currentTarget.value)
+        };
+
+        const addItem = async () => {
+            setToDoList([...toDoList, itemText])
+            setItemText('')
+        };
+
+   
+        
+        return (
         <>
             <div className={'flex justify-center mt-20'}>
                 <div className={' h-96 w-1/3'}>
@@ -13,50 +29,27 @@ function Todo(props) {
 
                     <div className={'flex p-4'}>
                         <div className={'w-2/3'}>
-                            <input placeholder={'Add task...'} type="text" className={'border p-2 w-full'}/>
+                            <input value={itemText} onChange={updateInputValue} type="text" placeholder={'Add task...'} className={'border p-2 w-full'}/>
                         </div>
-
                         <div className={'w-1/3 flex justify-center'}>
-                            <button className={'border-2 border-blue-500 text-blue-500 font-bold rounded w-2/3 mr-4'}>Add</button>
+                            <button onClick={addItem} className={'border-2 border-blue-500 text-blue-500 font-bold rounded w-2/3 mr-4'}>Add</button>
                         </div>
 
                     </div>
 
 
                     <div className={'bg-gray-100 h-full p-2 mt-4'}>
-
                         <ul>
-                            <li className={'flex relative p-2 border-b-2 border-blue-100'}>
-                                <div className={'mr-4'}>
-                                    <input type="checkbox"/>
-                                </div>
+                         {toDoList.map((item, idx) => {
+                              return <li className={'flex relative p-2 border-b-2 border-blue-100'} key={idx}>
+                                <div className={'mr-4'}><input type="checkbox"/></div>  
                                 <div className={''}>
-                                    Go to the grocery
+                                    {item}
                                     <i className={'fa fa-trash absolute right-10 text-red-300'}/>
                                 </div>
                             </li>
-
-                            <li className={'flex relative p-2 border-b-2 border-blue-100'}>
-                                <div className={'mr-4'}>
-                                    <input type="checkbox"/>
-                                </div>
-                                <div className={''}>
-                                    Work on project
-                                    <i className={'fa fa-trash absolute right-10 text-red-300'}/>
-                                </div>
-                            </li>
-
-                            <li className={'flex relative p-2 border-b-2 border-blue-100'}>
-                                <div className={'mr-4'}>
-                                    <input type="checkbox"/>
-                                </div>
-                                <div className={''}>
-                                    Study Programming
-                                    <i className={'fa fa-trash absolute right-10 text-red-300'}/>
-                                </div>
-                            </li>
+                          })}
                         </ul>
-
                     </div>
 
                     <div className={'mt-4'}>

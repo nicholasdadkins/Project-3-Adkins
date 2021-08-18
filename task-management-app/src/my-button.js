@@ -6,7 +6,7 @@ function MyButton(props) {
     console.log(props.color)
 
     const setClasses = () => {
-        // 'py-3 px-4 bg-red-500 rounded text-white'
+        'py-3 px-4 bg-red-500 rounded text-white'
         let baseClasses = 'py-3 px-4 text-white'
         if(props.color=='red'){
             baseClasses = baseClasses + ' bg-red-500'
