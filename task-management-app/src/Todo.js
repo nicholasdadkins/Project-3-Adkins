@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
 
-// This is the only one that is left
-// 3. Show All, Active and completed
 
 function Todo(props) {
 
@@ -12,7 +10,11 @@ function Todo(props) {
         {text: 'Garden', completed: false}
     ]);
 
-    const [allItem, setAllItems] = useState([]);
+    const [allItem, setAllItems] = useState([
+        {text: 'Go to the grocery store', completed: false},
+        {text: 'Feed pets', completed: false},
+        {text: 'Garden', completed: false}
+    ]);
 
 
     const onTextChange = async (event) => {
@@ -25,44 +27,48 @@ function Todo(props) {
         setNewItemText('')
     };
     
+    
+
+    const filterCompleted = [
+        {
+          predicateFn: allItem => allItem.completed == "true" 
+        }
+      ];
+
+      const filterActive = [
+        {
+          predicateFn: allItem => allItem.completed == "false" 
+        }
+      ];
+
+
+    
+      function getFilteredCompleted(filterCompleted) {
+        return allItem.filter(p => filterCompleted.every(filter => filter.predicateFn(p)));
+      }
+      function getFilteredActive(filterActive) {
+        return allItem.filter(p => filterActive.every(filter => filter.predicateFn(p)));
+      }
+
+
     const allItems = async () => {
-        //setItems([...items, {text: newItemText, completed: false}])
         let itemsAll = allItem
         setItems([...itemsAll])
         setNewItemText('all')
     };
 
-    const filterCompleted = [
-        {
-          predicateFn: allItem => allItem.completed == "true"
-        }
-      ];
-    
-      function getFilteredCompleted(filterCompleted) {
-        return allItem.filter(p => filterCompleted.every(filter => filter.predicateFn(p)));
-      }
 
     const activeItems = async () => {
         let itemsActive = getFilteredCompleted(filterCompleted)
-
-    
-        // itemsCopy.map((itemCopy, index) => {
-        //     if(index == idx){
-        //         itemCopy.completed = event.target.checked
-        //     }
-        // })
-        setItems([...itemsActive])
+        let itemsCopy = allItem.filter(items => items.completed == false)
+        setItems([...itemsCopy])
         setNewItemText('active')
+        
     };
 
     const completedItems = async () => {
-        let itemsCopy = items.filter(items => items.completed == true)
-    
-        // itemsCopy.map((itemCopy, index) => {
-        //     if(index == idx){
-        //         itemCopy.completed = event.target.checked
-        //     }
-        // })
+        let itemsCompleted = getFilteredActive(filterCompleted)
+        let itemsCopy = allItem.filter(items => items.completed == true)
         setItems([...itemsCopy])
         setNewItemText('completed')
     };
@@ -75,6 +81,7 @@ function Todo(props) {
             }
         })
         setItems([...itemsCopy])
+        setAllItems([...itemsCopy])
     };
 
     const onItemDeleted = async (event, item, idx) => {
@@ -85,6 +92,7 @@ function Todo(props) {
             }
         })
         setItems([...itemsCopy])
+        setAllItems([...itemsCopy])
     };
 
     return (
@@ -113,7 +121,9 @@ function Todo(props) {
                             {items.map((item, idx) => {
                                return <li className={'flex relative p-2 border-b-2 border-blue-100'}>
                                    <div className={'mr-4'}>
-                                       <input type="checkbox" onChange={(event) => onCheckBoxChange(event, item, idx)}/>
+                                       <input type="checkbox" 
+                                       checked={item.completed}
+                                       onChange={(event) => onCheckBoxChange(event, item, idx)}/>
                                    </div>
                                    <div className={''}>
                                        {item.text}
@@ -126,10 +136,9 @@ function Todo(props) {
 
                     <div className={'mt-4'}>
                         <h2 className={'font-semibold'}>Show</h2>
-                        <button onClick={allItems} className={'border-2 border-blue-500 text-blue-500 font-bold rounded w-2/3 mr-4'}>All</button>
-                        <button onClick={activeItems} className={'border-2 border-blue-500 text-blue-500 font-bold rounded w-2/3 mr-4'}>Active</button>
-                        <button onClick={completedItems} className={'border-2 border-blue-500 text-blue-500 font-bold rounded w-2/3 mr-4'}>Completed</button>
-
+                        <button onClick={allItems} className={'mt-2 mr-4 px-8 py-2 rounded bg-blue-500 text-white'}>All</button>
+                        <button onClick={activeItems} className={'border mr-4 px-8 py-2 rounded bg-gray-200 text-gray-500 font-semibold'}>Active</button>
+                        <button onClick={completedItems} className={'border px-8 py-2 rounded bg-gray-200 text-gray-500 font-semibold'}>Completed</button>
                     </div>
                 </div>
 

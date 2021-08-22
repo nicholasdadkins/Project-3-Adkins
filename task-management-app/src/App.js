@@ -11,7 +11,6 @@ import Contact from "./Contact";
 
 
 function App() {
-
   return (
       <Router>
           <div>
