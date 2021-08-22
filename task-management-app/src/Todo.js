@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
-
 function Todo(props) {
-
+    
     const [newItemText, setNewItemText] = useState('');
     const [items, setItems] = useState([
         {text: 'Go to the grocery store', completed: false},
@@ -27,22 +26,18 @@ function Todo(props) {
         setNewItemText('')
     };
     
-    
-
     const filterCompleted = [
         {
-          predicateFn: allItem => allItem.completed == "true" 
+          predicateFn: allItem => allItem.completed === "true" 
         }
       ];
 
       const filterActive = [
         {
-          predicateFn: allItem => allItem.completed == "false" 
+          predicateFn: allItem => allItem.completed === "false" 
         }
       ];
 
-
-    
       function getFilteredCompleted(filterCompleted) {
         return allItem.filter(p => filterCompleted.every(filter => filter.predicateFn(p)));
       }
@@ -59,16 +54,14 @@ function Todo(props) {
 
 
     const activeItems = async () => {
-        let itemsActive = getFilteredCompleted(filterCompleted)
-        let itemsCopy = allItem.filter(items => items.completed == false)
+        let itemsCopy = allItem.filter(items => items.completed === false)
         setItems([...itemsCopy])
         setNewItemText('active')
         
     };
 
     const completedItems = async () => {
-        let itemsCompleted = getFilteredActive(filterCompleted)
-        let itemsCopy = allItem.filter(items => items.completed == true)
+        let itemsCopy = allItem.filter(items => items.completed === true)
         setItems([...itemsCopy])
         setNewItemText('completed')
     };
@@ -76,7 +69,7 @@ function Todo(props) {
     const onCheckBoxChange = async (event, item, idx) => {
         let itemsCopy = items
         itemsCopy.map((itemCopy, index) => {
-            if(index == idx){
+            if(index === idx){
                 itemCopy.completed = event.target.checked
             }
         })
@@ -87,7 +80,7 @@ function Todo(props) {
     const onItemDeleted = async (event, item, idx) => {
         let itemsCopy = []
         items.map((item, index) => {
-            if(index != idx){
+            if(index !== idx){
                 itemsCopy.push(item)
             }
         })
@@ -99,7 +92,6 @@ function Todo(props) {
         <>
         <div className={'flex justify-center mt-20'}>
                 <div className={' h-96 w-1/3'}>
-
 
                     <div className={'flex p-4'}>
                         <div className={'w-2/3'}>

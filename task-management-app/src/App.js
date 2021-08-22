@@ -8,6 +8,7 @@ import {
 import About from './About'
 import Todo from "./Todo";
 import Contact from "./Contact";
+import { useForm } from 'react-hook-form';
 
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
               <nav className={'border p-2 bg-gray-900'}>
                   <ul>
                       <li className={'inline p-2 text-white'}>
-                          <NavLink exact activeClassName="active" to="/about">About</NavLink>
+                          <NavLink exact activeClassName="active" to="/">About</NavLink>
                       </li>
                       <li className={'inline p-2  text-white'}>
                           <NavLink exact activeClassName="active" to="/todo">Todo</NavLink>
@@ -28,7 +29,7 @@ function App() {
                   </ul>
               </nav>
 
-          
+            
 
               
               <Switch>
