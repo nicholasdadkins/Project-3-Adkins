@@ -8,8 +8,6 @@ import {
 import About from './About'
 import Todo from "./Todo";
 import Contact from "./Contact";
-import { useForm } from 'react-hook-form';
-
 
 function App() {
   return (
@@ -28,9 +26,6 @@ function App() {
                       </li>
                   </ul>
               </nav>
-
-            
-
               
               <Switch>
                   <Route path="/contact">
