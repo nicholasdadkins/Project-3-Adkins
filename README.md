@@ -4,7 +4,7 @@ Task Management app
 
 To utilize the todo list task management app, add items and submit them. You can check-off items to add them to the "completed" list, view active items in the "active" list, and view active and completed items under "all". Delete items by clicking the trashcan icon.
 
-Technologies used include CSS, Javascript, React and React-Router.
+Technologies used include CSS, Javascript, Tailwind, React and React-Router.
 
 For improvement I would develop the contact form, create a scrolling list to append tasks to, and add login for later visitation.
 
