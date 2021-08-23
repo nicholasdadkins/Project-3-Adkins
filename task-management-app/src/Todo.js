@@ -2,14 +2,17 @@ import React, {useState, useEffect} from 'react';
 
 function Todo(props) {
     
-    const [newItemText, setNewItemText] = useState('');
-    const [items, setItems] = useState([
+    const [newTaskText, setNewTaskText] = useState('');
+
+    const [view, setView] = useState('');
+
+    const [Tasks, setTasks] = useState([
         {text: 'Go to the grocery store', completed: false},
         {text: 'Feed pets', completed: false},
         {text: 'Garden', completed: false}
     ]);
 
-    const [allItem, setAllItems] = useState([
+    const [allTask, setAllTasks] = useState([
         {text: 'Go to the grocery store', completed: false},
         {text: 'Feed pets', completed: false},
         {text: 'Garden', completed: false}
@@ -17,120 +20,151 @@ function Todo(props) {
 
 
     const onTextChange = async (event) => {
-        setNewItemText(event.currentTarget.value)
+        setNewTaskText(event.currentTarget.value)
     };
 
-    const addItem = async () => {
-        setItems([...items, {text: newItemText, completed: false}])
-        setAllItems([...items, {text: newItemText, completed: false}])
-        setNewItemText('')
+    const addTask = async () => {
+        setAllTasks([...allTask, {text: newTaskText, completed: false}])
+        setTasks([...Tasks, {text: newTaskText, completed: false}])
+        setNewTaskText('')
+        setView({view: 'all'})
     };
     
     const filterCompleted = [
         {
-          predicateFn: allItem => allItem.completed === "true" 
+            predicateFn: allTask => allTask.completed === "true" 
         }
-      ];
-
-      const filterActive = [
+    ];
+    const filterActive = [
         {
-          predicateFn: allItem => allItem.completed === "false" 
+            predicateFn: allTask => allTask.completed === "false" 
         }
-      ];
-
-      function getFilteredCompleted(filterCompleted) {
-        return allItem.filter(p => filterCompleted.every(filter => filter.predicateFn(p)));
-      }
-      function getFilteredActive(filterActive) {
-        return allItem.filter(p => filterActive.every(filter => filter.predicateFn(p)));
-      }
+    ];
 
 
-    const allItems = async () => {
-        let itemsAll = allItem
-        setItems([...itemsAll])
-        setNewItemText('all')
+    const allTasks = async () => {
+        let TasksAll = allTask
+        setTasks([...TasksAll])
+        setView({view: 'all'})
+        
+
+
     };
-
-
-    const activeItems = async () => {
-        let itemsCopy = allItem.filter(items => items.completed === false)
-        setItems([...itemsCopy])
-        setNewItemText('active')
+    const activeTasks = async () => {
+        let TasksCopy = allTask.filter(Tasks => Tasks.completed === false)
+        setTasks([...TasksCopy])
+        setView({view: 'active'})
         
     };
 
-    const completedItems = async () => {
-        let itemsCopy = allItem.filter(items => items.completed === true)
-        setItems([...itemsCopy])
-        setNewItemText('completed')
+    const completedTasks = async () => {
+        let TasksCopy = allTask.filter(Tasks => Tasks.completed === true)
+        setTasks([...TasksCopy])
+        setView({view: 'completed'})
     };
 
-    const onCheckBoxChange = async (event, item, idx) => {
-        let itemsCopy = items
-        itemsCopy.map((itemCopy, index) => {
+    const onCheckBoxChange = async (event, Task, idx) => {
+        let TasksCopy = Tasks
+        TasksCopy.map((TaskCopy, index) => {
             if(index === idx){
-                itemCopy.completed = event.target.checked
+                TaskCopy.completed = event.target.checked
             }
         })
-        setItems([...itemsCopy])
-        setAllItems([...itemsCopy])
+        setTasks([...TasksCopy])
+        setAllTasks([...TasksCopy])
     };
 
-    const onItemDeleted = async (event, item, idx) => {
-        let itemsCopy = []
-        items.map((item, index) => {
+    const onTaskDeleted = async (event, Task, idx) => {
+        let TasksCopy = []
+        Tasks.map((Task, index) => {
             if(index !== idx){
-                itemsCopy.push(item)
+                TasksCopy.push(Task)
             }
         })
-        setItems([...itemsCopy])
-        setAllItems([...itemsCopy])
+        setTasks([...TasksCopy])
+        setAllTasks([...TasksCopy])
     };
+
 
     return (
         <>
-        <div className={'flex justify-center mt-20'}>
-                <div className={' h-96 w-1/3'}>
+        <div className={'flex justify-center mt-8'}>
+                <div className={' h-96 m-w-20'}>
 
                     <div className={'flex p-4'}>
                         <div className={'w-2/3'}>
-                            <input value={newItemText}
+                            <input value={newTaskText}
                                    onChange={onTextChange}
                                    placeholder={'Add task...'}
                                    type="text"
                                    className={'border p-2 w-full'}/>
                         </div>
 
-                        <div className={'w-1/3 flex justify-center'}>
-                            <button onClick={addItem} className={'border-2 border-blue-500 text-blue-500 font-bold rounded w-2/3 mr-4'}>Add</button>
+                        <div className={'w-20 flex justify-center'}>
+                            <button onClick={addTask} className={'border-2 border-blue-500 text-blue-500 font-bold rounded w-2/3 mr-4'}>Add</button>
                         </div>
 
                     </div>
 
                     <div className={'bg-gray-100 h-full p-2 mt-4'}>
                         <ul>
-                            {items.map((item, idx) => {
-                               return <li className={'flex relative p-2 border-b-2 border-blue-100'}>
+                            {Tasks.map((Task, idx) => {
+                               return <li key={Task.text} className={'flex relative p-2 border-b-2 border-blue-100'}>
                                    <div className={'mr-4'}>
                                        <input type="checkbox" 
-                                       checked={item.completed}
-                                       onChange={(event) => onCheckBoxChange(event, item, idx)}/>
+                                       checked={Task.completed}
+                                       onChange={(event) => onCheckBoxChange(event, Task, idx)}/>
                                    </div>
                                    <div className={''}>
-                                       {item.text}
-                                       <i onClick={(event) => onItemDeleted(event, item, idx)} className={'fa fa-trash absolute right-10 text-red-300 cursor-pointer'}/>
+                                       {Task.text}
+                                       <i onClick={(event) => onTaskDeleted(event, Task, idx)} className={'fa fa-trash absolute right-10 text-red-300 cursor-pointer'}/>
                                    </div>
                                </li>
                             })}
                         </ul>
                     </div>
 
-                    <div className={'mt-4'}>
-                        <h2 className={'font-semibold'}>Show</h2>
-                        <button onClick={allItems} className={'mt-2 mr-4 px-8 py-2 rounded bg-blue-500 text-white'}>All</button>
-                        <button onClick={activeItems} className={'border mr-4 px-8 py-2 rounded bg-gray-200 text-gray-500 font-semibold'}>Active</button>
-                        <button onClick={completedItems} className={'border px-8 py-2 rounded bg-gray-200 text-gray-500 font-semibold'}>Completed</button>
+                    <div className={'mt-2 w-max'}>
+                        <h2 className={'font-semibold'}>Show Task</h2>
+                        {(function() {
+                            if (view.view==='all') {
+                                return <button  onClick={allTasks} 
+                                className={'border mr-1 px-2 py-2 rounded bg-blue-500 text-white font-semibold w-20'}>All</button>
+                            } 
+                            else if (view.view==='') {
+                                return <button  onClick={allTasks} 
+                                className={'border mr-1 px-2 py-2 rounded bg-blue-500 text-white font-semibold w-20'}>All</button>
+                            }
+                            else {
+                                return <button  onClick={allTasks} 
+                                className={'border mr-1 px-2 py-2 rounded bg-gray-200 text-gray-500 font-semibold w-20'}>All</button>
+                            }
+                            })()}     
+
+                            {(function() {
+                                if (view.view==='active') {
+                                    return <button onClick={activeTasks}
+                                    className={'border mr-1 px-2 py-2 rounded bg-blue-500 text-white font-semibold  w-20'}>
+                                        Active</button>
+                                } else {
+                                    return       <button onClick={activeTasks} 
+                                    className={'border mr-1 px-2 py-2 rounded bg-gray-200 text-gray-500 font-semibold  w-20'}>
+                                        Active</button>
+                                }
+                                })()}     
+
+                            {(function() {
+                                if (view.view==='completed') {
+                                    return <button onClick={completedTasks}
+                                    className={'border mr-1 px-2 py-2 rounded bg-blue-500 text-white font-semibold  w-22'}>
+                                        Completed</button>
+                                } else {
+                                    return       <button onClick={completedTasks} 
+                                    className={'border mr-1 px-2 py-2 rounded bg-gray-200 text-gray-500 font-semibold w-22'}>
+                                        Completed</button>
+                                }
+                                })()}    
+                
                     </div>
                 </div>
 
