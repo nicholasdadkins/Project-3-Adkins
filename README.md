@@ -11,8 +11,8 @@ For improvement I would develop the contact form, create a scrolling list to app
 
 User stories: 
 
-As a new user, I would like to be able to see a sample todo list item, so I am immediately familiar with the app functionality.
+As a new user, I would like to be able to see a sample todo list tasks, so I am immediately familiar with the app functionality.
 
-As a focused user, I would like to be able to entirely delete todo list items, so that they are not in any category on the app.
+As a focused user, I would like to be able to entirely delete todo list tasks, so that they are not in any category on the app.
 
-As a user that wants to track their progress with the app, I would like the items I add to be categorizeable under "all", "active", or "completed", depending on whether I have checked it off.
+As a user that wants to track their progress with the app, I would like the tasks I add to be categorizeable under "all", "active", or "completed", depending on whether I have checked them off.
